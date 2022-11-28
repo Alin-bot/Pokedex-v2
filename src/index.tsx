@@ -11,11 +11,11 @@ ReactDOM.render(
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         {/* <Layout> */}
-          <React.Suspense fallback={<VStack h='100vh' justify='center' align='center'><HStack justify='center' align='center'><Spinner thickness='4px' emptyColor='gray.200' size='xl'/></HStack></VStack>}>
-            <Routes>
-              <Route index element={<HomePage />} />
-            </Routes>
-          </React.Suspense>
+        <React.Suspense fallback={<VStack h='100vh' justify='center' align='center'><HStack justify='center' align='center'><Spinner thickness='4px' emptyColor='gray.200' size='xl' /></HStack></VStack>}>
+          <Routes>
+            <Route index element={<HomePage />} />
+          </Routes>
+        </React.Suspense>
         {/* </Layout> */}
       </BrowserRouter>
     </ChakraProvider>
