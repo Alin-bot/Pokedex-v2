@@ -3,14 +3,18 @@ export interface IPokemon {
     name: string;
     types: [
         {
-            slot: string,
-            type: { name: string, url: string }
+            type: type
         }
     ]
     weight: number;
 }
 
 export interface IPokemonItem {
+    name: string;
+    url: string;
+}
+
+export interface type {
     name: string;
     url: string;
 }

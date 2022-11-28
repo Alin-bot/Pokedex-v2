@@ -6,7 +6,7 @@ export default class PokeApiServiceImpl implements IPokemonService {
     private readonly baseUrl = "https://pokeapi.co/api/v2";
 
     public async getPokemonsList(): Promise<IPokemonItem[]> {
-        const response = await axios.get(`${this.baseUrl}/pokemon?limit=40&offset=0`);
+        const response = await axios.get(`${this.baseUrl}/pokemon?limit=42&offset=0`);
         return response.data.results;
     }
 

@@ -3,7 +3,7 @@ import react, { useEffect, useState } from "react";
 import { IPokemonItem } from "../../api/model/IPokemon";
 import { IPokemonService } from "../../api/IPokeApiService";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
-import { HStack, Stack, Text } from "@chakra-ui/react";
+import { Center, HStack, Stack, Text } from "@chakra-ui/react";
 import PokemonHomeCard from "../../components/PokemonHomeCard/PokemonHomeCard";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();
@@ -32,15 +32,17 @@ const HomePage = () => {
   return loadingItems ? (
     <Text>Loading...</Text>
   ) : (
-    <HStack p='100px' wrap='wrap' gap='100px'>
-      {pokemonsList.map((item: IPokemonItem) => (
-        <PokemonHomeCard
-          pokemonName={item.name}
-          url={item.url}
-          key={item.name}
-        />
-      ))}
-    </HStack>
+    <Center bg='#313638'>
+      <HStack p='100px' wrap='wrap' gap='100px' w='1050px'>
+        {pokemonsList.map((item: IPokemonItem) => (
+          <PokemonHomeCard
+            pokemonName={item.name}
+            url={item.url}
+            key={item.name}
+          />
+        ))}
+      </HStack>
+    </Center>
   );
 };
 
