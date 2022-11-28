@@ -1,9 +1,9 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { IPokemonItem } from "../../api/model/IPokemon";
 import { IPokemonService } from "../../api/IPokeApiService";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
-import { Center, HStack, Stack, Text } from "@chakra-ui/react";
+import { Center, HStack, Text } from "@chakra-ui/react";
 import PokemonHomeCard from "../../components/PokemonHomeCard/PokemonHomeCard";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();

@@ -1,5 +1,5 @@
 import { Box, Center, Image, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
 import { IPokemonService } from "../../api/IPokeApiService";
 import { IPokemon, type } from "../../api/model/IPokemon";
@@ -45,7 +45,7 @@ const PokemonHomeCard = (props: Props) => {
             setLoadingItems(false);
         };
         fetchItems();
-    }, []);
+    }, [url]);
 
     return loadingItems ? (
         <Text>Loading...</Text>
