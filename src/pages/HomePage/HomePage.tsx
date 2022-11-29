@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IPokemonItem } from "../../api/model/IPokemon";
 import { IPokemonService } from "../../api/IPokeApiService";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
-import { Center, HStack, Text } from "@chakra-ui/react";
+import { Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import PokemonHomeCard from "../../components/PokemonHomeCard/PokemonHomeCard";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();
@@ -55,7 +55,11 @@ const HomePage = () => {
           })}
         </HStack>
       </Center>
-      {loadingItems && <Text>Loading...</Text>}
+      {loadingItems &&
+        <HStack justify='center' align='center' bg='#313638'>
+          <Spinner thickness='4px' emptyColor='gray.200' size='xl' color='#a5a5a5' />
+        </HStack>
+      }
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Center, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Image, Skeleton, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
 import { IPokemonService } from "../../api/IPokeApiService";
@@ -35,14 +35,18 @@ const PokemonHomeCard = (props: Props) => {
         fetchItems();
     }, [url]);
 
+    const width = '200px';
+    const height = '120px';
+    const radius = '20px';
+
     return loadingItems ? (
-        <Text>Loading...</Text>
+        <Skeleton width={width} height={height} borderRadius={radius}/>
     ) : (
         <Box
             bg='#a5a5a5'
-            w="200px"
-            h="120px"
-            borderRadius="20px"
+            w={width}
+            h={height}
+            borderRadius={radius}
             shadow='13px 13px 26px #1e2122, 5px 5px 26px #444b4e'
         >
             <Text
