@@ -2,7 +2,7 @@ import { Box, Center, Image, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
 import { IPokemonService } from "../../api/IPokeApiService";
-import { IPokemon, type } from "../../api/model/IPokemon";
+import { IPokemon } from "../../api/model/IPokemon";
 import { renderPokemoneName, renderPokemonId } from "../../resources/HelpingFunctions";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();
@@ -11,18 +11,6 @@ type Props = {
     pokemonName: string;
     url: string;
 };
-
-const getTypes = (types: type[]) => {
-    return (
-        <Center mt='20px'>
-            {types.map((type: type) => (
-                <Box mr='10px'>
-                    <Text key={type.name} color='white'>{type.name}</Text>
-                </Box>
-            ))}
-        </Center>
-    )
-}
 
 const PokemonHomeCard = (props: Props) => {
     const { pokemonName, url } = props;
@@ -35,14 +23,14 @@ const PokemonHomeCard = (props: Props) => {
 
             try {
                 const response = await pokemonService.getPokemonInfo(url);
-                console.log(response);
 
                 setPokemon(response);
+
             } catch (error) {
                 console.error(`Error on fetching pokemon: ${error}`);
+            } finally {
+                setLoadingItems(false);
             }
-
-            setLoadingItems(false);
         };
         fetchItems();
     }, [url]);
@@ -50,7 +38,8 @@ const PokemonHomeCard = (props: Props) => {
     return loadingItems ? (
         <Text>Loading...</Text>
     ) : (
-        <Box bg='#a5a5a5'
+        <Box
+            bg='#a5a5a5'
             w="200px"
             h="120px"
             borderRadius="20px"
@@ -75,7 +64,14 @@ const PokemonHomeCard = (props: Props) => {
                 <Text color='white' mt='5px'>{renderPokemoneName(pokemon.name)}</Text>
             </Center>
 
-            {getTypes(pokemon.types.map(obj => obj.type))}
+            <Center mt='20px'>
+                {pokemon.types.map((obj, index) =>
+                    <Box mr='10px' key={index}>
+                        <Text color='white'>{obj.type.name}</Text>
+                    </Box>
+                )}
+            </Center>
+
         </Box>
     );
 };

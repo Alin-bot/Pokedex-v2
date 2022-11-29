@@ -9,12 +9,12 @@ export interface IPokemon {
     weight: number;
 }
 
-export interface IPokemonItem {
+export interface type {
     name: string;
     url: string;
 }
 
-export interface type {
+export interface IPokemonItem {
     name: string;
     url: string;
 }

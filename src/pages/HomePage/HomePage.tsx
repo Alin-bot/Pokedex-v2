@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { IPokemonItem } from "../../api/model/IPokemon";
 import { IPokemonService } from "../../api/IPokeApiService";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
@@ -10,39 +9,54 @@ const pokemonService: IPokemonService = new PokeApiServiceImpl();
 
 const HomePage = () => {
   const [loadingItems, setLoadingItems] = useState(true);
-  const [pokemonsList, setPokemonsList] = useState<IPokemonItem[]>([]);
+  const [pokemonsList, setPokemonsList] = useState<IPokemonItem[]>([] as IPokemonItem[]);
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
     const fetchItems = async () => {
       setLoadingItems(true);
 
       try {
-        const response = await pokemonService.getPokemonsList();
+        const response = await pokemonService.getPokemonsList(`https://pokeapi.co/api/v2/pokemon?limit=27&offset=${page}`);
 
-        setPokemonsList(response);
+        setPokemonsList(prevPokemonList => [...prevPokemonList, ...response]);
+
       } catch (error) {
         console.error(`Error on fetching pokemon items: ${error}`);
+      } finally {
+        setLoadingItems(false);
       }
-
-      setLoadingItems(false);
     };
     fetchItems();
+  }, [page]);
+
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+    setPage(prevPage => prevPage + 20);
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return loadingItems ? (
-    <Text>Loading...</Text>
-  ) : (
-    <Center bg='#313638'>
-      <HStack p='100px' wrap='wrap' gap='100px' w='1050px'>
-        {pokemonsList.map((item: IPokemonItem) => (
-          <PokemonHomeCard
-            pokemonName={item.name}
-            url={item.url}
-            key={item.name}
-          />
-        ))}
-      </HStack>
-    </Center>
+  return (
+    <>
+      <Center bg='#313638'>
+        <HStack p='100px' wrap='wrap' gap='100px' w='1050px'>
+          {pokemonsList.map((item: IPokemonItem, index) => {
+            return (
+              <PokemonHomeCard
+                pokemonName={item.name}
+                url={item.url}
+                key={index}
+              />)
+          })}
+        </HStack>
+      </Center>
+      {loadingItems && <Text>Loading...</Text>}
+    </>
   );
 };
 
