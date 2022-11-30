@@ -17,7 +17,7 @@ const HomePage = () => {
       setLoadingItems(true);
 
       try {
-        const response = await pokemonService.getPokemonsList(`https://pokeapi.co/api/v2/pokemon?limit=27&offset=${page}`);
+        const response = await pokemonService.getPokemonsList(`https://pokeapi.co/api/v2/pokemon?limit=30&offset=${page}`);
 
         setPokemonsList(prevPokemonList => [...prevPokemonList, ...response]);
 
@@ -32,7 +32,7 @@ const HomePage = () => {
 
   const handleScroll = () => {
     if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
-    setPage(prevPage => prevPage + 20);
+    setPage(prevPage => prevPage + 30);
   }
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const HomePage = () => {
   return (
     <>
       <Center bg='#313638'>
-        <HStack p='100px' wrap='wrap' gap='100px' w='1050px'>
+        <HStack p='100px' wrap='wrap' gap='100px' w='1100px'>
           {pokemonsList.map((item: IPokemonItem, index) => {
             return (
               <PokemonHomeCard

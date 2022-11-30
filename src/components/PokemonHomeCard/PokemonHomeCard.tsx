@@ -4,6 +4,7 @@ import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
 import { IPokemonService } from "../../api/IPokeApiService";
 import { IPokemon } from "../../api/model/IPokemon";
 import { renderPokemoneName, renderPokemonId } from "../../resources/HelpingFunctions";
+import TypeBox from "../TypeBox/TypeBox";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();
 
@@ -35,12 +36,12 @@ const PokemonHomeCard = (props: Props) => {
         fetchItems();
     }, [url]);
 
-    const width = '200px';
+    const width = '210px';
     const height = '120px';
     const radius = '20px';
 
     return loadingItems ? (
-        <Skeleton width={width} height={height} borderRadius={radius}/>
+        <Skeleton width={width} height={height} borderRadius={radius} />
     ) : (
         <Box
             bg='#a5a5a5'
@@ -68,11 +69,9 @@ const PokemonHomeCard = (props: Props) => {
                 <Text color='white' mt='5px'>{renderPokemoneName(pokemon.name)}</Text>
             </Center>
 
-            <Center mt='20px'>
+            <Center mt='10px' gap='1'>
                 {pokemon.types.map((obj, index) =>
-                    <Box mr='10px' key={index}>
-                        <Text color='white'>{obj.type.name}</Text>
-                    </Box>
+                    <TypeBox typeName={obj.type.name} key={index} />
                 )}
             </Center>
 
