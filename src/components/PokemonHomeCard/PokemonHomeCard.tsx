@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
 import { IPokemonService } from "../../api/IPokeApiService";
 import { IPokemon } from "../../api/model/IPokemon";
-import { renderPokemoneName, renderPokemonId } from "../../resources/HelpingFunctions";
+import { getCardColor, renderPokemoneName, renderPokemonId } from "../../resources/HelpingFunctions";
 import TypeBox from "../TypeBox/TypeBox";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();
@@ -44,10 +44,12 @@ const PokemonHomeCard = (props: Props) => {
         <Skeleton width={width} height={height} borderRadius={radius} />
     ) : (
         <Box
-            bg='#a5a5a5'
+            bg='#8d99ae'
             w={width}
             h={height}
             borderRadius={radius}
+            borderWidth='3px'
+            borderColor={getCardColor(pokemon.types[0].type.name)}
             shadow='13px 13px 26px #1e2122, 5px 5px 26px #444b4e'
         >
             <Text

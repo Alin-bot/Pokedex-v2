@@ -43,7 +43,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Center bg='#313638'>
+      <Center bgImage='./blob-scene-haikei.svg' bgRepeat='no-repeat' bgAttachment='fixed' bgSize='cover'>
         <HStack p='100px' wrap='wrap' gap='100px' w='1100px'>
           {pokemonsList.map((item: IPokemonItem, index) => {
             return (
@@ -56,7 +56,7 @@ const HomePage = () => {
         </HStack>
       </Center>
       {loadingItems &&
-        <HStack justify='center' align='center' bg='#313638'>
+        <HStack justify='center' align='center'>
           <Spinner thickness='4px' emptyColor='gray.200' size='xl' color='#a5a5a5' />
         </HStack>
       }

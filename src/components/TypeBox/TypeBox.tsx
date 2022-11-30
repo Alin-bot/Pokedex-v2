@@ -9,7 +9,7 @@ const TypeBox = (props: Props) => {
     const { typeName } = props
 
     return (
-        <HStack bg='white' borderRadius='md' p='1'>
+        <HStack bg='#edf2f4' borderRadius='md' p='1'>
             <Box mr='-10px'>
                 <Image
                     src={`/type_icons/${typeName}.svg`}
