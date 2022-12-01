@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IPokemonItem } from "../../api/model/IPokemon";
 import { IPokemonService } from "../../api/IPokeApiService";
 import PokeApiServiceImpl from "../../api/impl/PokeApiSeviceImpl";
-import { Center, HStack, Spinner } from "@chakra-ui/react";
+import { Box, Center, HStack, Select, Spinner } from "@chakra-ui/react";
 import PokemonHomeCard from "../../components/PokemonHomeCard/PokemonHomeCard";
 
 const pokemonService: IPokemonService = new PokeApiServiceImpl();
@@ -11,6 +11,12 @@ const HomePage = () => {
   const [loadingItems, setLoadingItems] = useState(true);
   const [pokemonsList, setPokemonsList] = useState<IPokemonItem[]>([] as IPokemonItem[]);
   const [page, setPage] = useState<number>(0);
+
+  const [loadingTypes, setLoadingTypes] = useState(true);
+  const [types, setTypes] = useState<string[]>([])
+  const [selectedType, setSelectedType] = useState('')
+
+  const [enableInfinitScroll, setEnableInfinitScroll] = useState(true)
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -36,14 +42,80 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    if (enableInfinitScroll) {
+      window.addEventListener('scroll', handleScroll);
 
-    return () => window.removeEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [enableInfinitScroll]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoadingItems(true);
+
+      try {
+        const response = await pokemonService.getPokemonListByType(selectedType);
+
+        setPokemonsList(response);
+
+      } catch (error) {
+        console.error(`Error on fetching pokemon items: ${error}`);
+      } finally {
+        setLoadingItems(false);
+      }
+    };
+
+    console.log(selectedType);
+    if (selectedType !== '') {
+      if (selectedType === 'All') {
+        setEnableInfinitScroll(true);
+        setPokemonsList([]);
+        setPage(0);
+      } else {
+        setEnableInfinitScroll(false);
+        setPage(-1)
+        fetchItems();
+      }
+    }
+
+  }, [selectedType]);
+
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      setLoadingTypes(true);
+
+      try {
+        const response = await pokemonService.getPokemonTypes();
+
+        setTypes(response);
+
+      } catch (error) {
+        console.error(`Error on fetching pokemon items: ${error}`);
+      } finally {
+        setLoadingTypes(false);
+      }
+    };
+    fetchTypes();
   }, []);
 
   return (
-    <>
-      <Center bgImage='./blob-scene-haikei.svg' bgRepeat='no-repeat' bgAttachment='fixed' bgSize='cover'>
+    <Box bgImage='./blob-scene-haikei.svg' bgRepeat='no-repeat' bgAttachment='fixed' bgSize='cover' pt='50' minH='100vh'>
+      <Select placeholder='Select option' textColor='white' w='200px' ml='100' onChange={(event) => setSelectedType(event.target.value)}>
+        {loadingTypes ? (
+          <Spinner />
+        ) : (
+          <>
+            <option value='All'>All</option>
+
+            {types.map(type => (
+              <option value={type}>{type}</option>
+            ))}
+          </>
+        )}
+      </Select>
+
+      <Center >
         <HStack p='100px' wrap='wrap' gap='100px' w='1100px'>
           {pokemonsList.map((item: IPokemonItem, index) => {
             return (
@@ -55,12 +127,13 @@ const HomePage = () => {
           })}
         </HStack>
       </Center>
+
       {loadingItems &&
         <HStack justify='center' align='center'>
-          <Spinner thickness='4px' emptyColor='gray.200' size='xl' color='#a5a5a5' />
+          <Spinner thickness='4px' emptyColor='gray.200' size='xl' color='#a5a5a5' mb='20px' />
         </HStack>
       }
-    </>
+    </Box>
   );
 };
 
