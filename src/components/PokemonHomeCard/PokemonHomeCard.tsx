@@ -64,6 +64,10 @@ const PokemonHomeCard = (props: Props) => {
                 <Image
                     src={`https://img.pokemondb.net/sprites/black-white/anim/normal/${pokemonName}.gif`}
                     alt={pokemonName}
+                    fallback={
+                        // <Image src={pokemon.sprites.other["official-artwork"].front_default} height='70' /> ||
+                        <Image src='./poke-egg.png' height='50px' />
+                    }
                 />
             </Center>
 
