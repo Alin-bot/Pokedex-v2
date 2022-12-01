@@ -5,7 +5,15 @@ export interface IPokemon {
         {
             type: type
         }
-    ]
+    ],
+    sprites: {
+        other: {
+            'official-artwork': {
+                front_default: string
+            }
+        }
+
+    }
     weight: number;
 }
 
